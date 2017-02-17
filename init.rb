@@ -8,6 +8,7 @@ require_relative 'utils.rb'
 require_relative 'aabb.rb'
 require_relative 'ray.rb'
 require_relative 'map.rb'
+require_relative 'character.rb'
 
 class Window < Gosu::Window
 	def initialize
