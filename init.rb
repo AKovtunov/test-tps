@@ -9,7 +9,7 @@ $tile_size = 16
 
 class Window < Gosu::Window
 	def initialize
-		super(800, 600, false)
+		super(640, 480, false)
 		self.caption = "Ray test"
 		@camera = Camera.new(self)
 		@character = Character.new('test.png', 24, 32)
@@ -30,24 +30,22 @@ class Window < Gosu::Window
 
 	def update
 		# WILL BE DELETED AFTER
-		@ray ||= Ray.new(Vector3.new(0, 1, 0), Vector3.new(0, 1, 0))
+		@ray ||= Ray.new(Vector3.new(0, 12, 0), Vector3.new(0, 12, 0))
 		@ray_angle ||= 0
 		lenght = 96
 		@ray.destination.x = @ray.origin.x + lenght * Math::cos(@ray_angle * Math::PI / 180.0)
 		@ray.destination.z = @ray.origin.z + lenght * Math::sin(@ray_angle * Math::PI / 180.0)
+
 		@ray_angle += 2 if Gosu::button_down?(Gosu::KbRight)
 		@ray_angle -= 2 if Gosu::button_down?(Gosu::KbLeft)
 
-		v = 1
-		@ray.origin.x += v if Gosu::button_down?(Gosu::KbD)
-		@ray.origin.x -= v if Gosu::button_down?(Gosu::KbA)
-		@ray.origin.z -= v if Gosu::button_down?(Gosu::KbW)
-		@ray.origin.z += v if Gosu::button_down?(Gosu::KbS)
 
 		@path = @ray.raytrace
+		@character.update(@camera.angles)
+		@camera.update(@character.position)
 
-		@character.set_position(@ray.origin)
-		@camera.update(@ray.origin)
+		@ray.origin.x = @character.position.x
+		@ray.origin.z = @character.position.z
 	end
 
 	def draw

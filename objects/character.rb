@@ -1,4 +1,5 @@
 class Character
+	attr_reader :position
 	def initialize(filename, frame_width, frame_height)
 		@position = Vector3.new(0, 0, 0)
 		@angle = Vector3.new(0, 0, 0)
@@ -18,15 +19,28 @@ class Character
 		@position = position
 	end
 
-	def update
+	def update(camera_angle)
+		s = 1.0
+		if Gosu::button_down?(Gosu::KbW)
+			@position.x -= s * Math::cos(camera_angle.x.to_radians)
+			@position.z -= s * Math::sin(camera_angle.x.to_radians)
+		elsif Gosu::button_down?(Gosu::KbS)
+			@position.x += s * Math::cos(camera_angle.x.to_radians)
+			@position.z += s * Math::sin(camera_angle.x.to_radians)
+		end
 
+		if Gosu::button_down?(Gosu::KbA)
+			@position.x -= s * Math::cos((camera_angle.x - 90.0).to_radians)
+			@position.z -= s * Math::sin((camera_angle.x - 90.0).to_radians)
+		elsif Gosu::button_down?(Gosu::KbD)
+			@position.x += s * Math::cos((camera_angle.x - 90.0).to_radians)
+			@position.z += s * Math::sin((camera_angle.x - 90.0).to_radians)
+		end
 	end
 
 	def draw(camera_angle)
 		x_frame = (@frame * @frame_width) / @frames.width.to_f
 		y_frame = 1.0 - (@orientations[@orientation] * @frame_height) / @frames.height.to_f
-
-		p y_frame
 		frame_width = @frame_width / @frames.width.to_f 
 		frame_height = @frame_height / @frames.height.to_f 
 		glEnable(GL_ALPHA_TEST)
