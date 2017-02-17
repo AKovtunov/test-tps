@@ -7,17 +7,7 @@ require_relative 'opengl_context.rb'
 require_relative 'utils.rb'
 require_relative 'aabb.rb'
 require_relative 'ray.rb'
-
-class Map
-	def initialize(filename)
-
-	end
-
-	def draw
-
-	end
-end
-
+require_relative 'map.rb'
 
 class Window < Gosu::Window
 	def initialize
