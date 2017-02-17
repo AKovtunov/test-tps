@@ -22,7 +22,7 @@ class Camera
 
 	def look
 		glColor4f(1, 1, 1, 1)
-		# glEnable(GL_TEXTURE_2D)
+		glEnable(GL_TEXTURE_2D)
 		glEnable(GL_DEPTH_TEST)
 		glClearColor(*@clear_color)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)

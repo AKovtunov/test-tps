@@ -14,6 +14,19 @@ class Integer
 	end
 end
 
+# fix to be able tu use coordinates from 0.0 to 1.0 inside a Gosu::Image
+class Gosu::GLTexInfo
+	def tex_coord_2d(x, y)
+		if x >= 0.0 and x <= 1.0 and y >= 0.0 and y <= 1.0
+			tex_x = self.left + x * (self.right - self.left)
+			tex_y = (self.bottom + y * (self.top - self.bottom))
+			glTexCoord2d(tex_x, tex_y)
+		else
+			raise("Opengl coordinates must be included in range 0.0 -> 1.0. Error with [#{x}, #{y}]")
+		end
+	end
+end
+
 class GLTexture
 	def initialize(filename)
 		gosu_image = Gosu::Image.new(filename, {:retro=>true, :tileable=>true})

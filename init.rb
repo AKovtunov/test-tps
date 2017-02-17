@@ -7,7 +7,7 @@ Dir["objects/*"].each {|file| require_relative file}
 
 class Window < Gosu::Window
 	def initialize
-		super(640, 480, false)
+		super(800, 600, false)
 		self.caption = "Ray test"
 		@camera = Camera.new(self)
 		@font = Gosu::Font.new(24)
