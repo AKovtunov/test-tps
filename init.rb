@@ -3,7 +3,7 @@ require 'opengl'
 require 'glu'
 include Gl, Glu
 
-Vector3 = Struct.new(:x, :y, :z)
+require_relative 'utils.rb'
 
 class Ray
 	attr_accessor :origin, :destination
