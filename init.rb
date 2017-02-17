@@ -25,6 +25,7 @@ class Window < Gosu::Window
 	end
 
 	def update
+		# WILL BE DELETED AFTER
 		@ray ||= Ray.new(Vector3.new(0, 1, 0), Vector3.new(0, 1, 0))
 		@ray_angle ||= 0
 		lenght = 96
@@ -40,6 +41,8 @@ class Window < Gosu::Window
 		@ray.origin.z += v if Gosu::button_down?(Gosu::KbS)
 
 		@path = @ray.raytrace
+
+		@camera.update(@ray.origin)
 	end
 
 	def draw

@@ -3,6 +3,21 @@ class Camera
 		@window = window
 		@clear_color = [0.5, 0.5, 0.5, 1.0]
 		@perspective = [45, @window.width.to_f / @window.height.to_f, 1, 1000]		
+		@position = Vector3.new(0, 0, 0)
+		@target = Vector3.new(0, 0, 0)
+		@angles = Vector3.new(0, 0, 0)
+		@distance = 64.0
+		@altitude = 16.0
+	end
+
+	def update(target)
+		@target.x = target.x
+		@target.y = target.y + @altitude
+		@target.z = target.z
+
+		@position.x = @target.x + @distance * Math::cos(@angles.y.to_radians) * Math::cos(@angles.x.to_radians)
+		@position.y = @target.y + @distance * Math::sin(@angles.y.to_radians)
+		@position.z = @target.z + @distance * Math::cos(@angles.y.to_radians) * Math::sin(@angles.x.to_radians)
 	end
 
 	def look
@@ -16,6 +31,6 @@ class Camera
 		gluPerspective(*@perspective)
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity
-		gluLookAt(0, 200, 1, 0, 0, 0, 0, 1, 0)	
+		gluLookAt(@position.x, @position.y, @position.z, @target.x, @target.y, @target.z, 0, 1, 0)	
 	end
 end

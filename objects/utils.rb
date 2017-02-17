@@ -1,6 +1,19 @@
 # simple structure to handle coordinates
 Vector3 = Struct.new(:x, :y, :z)
 
+# hellper for trigonometry
+class Float
+	def to_radians
+		self * Math::PI / 180.0
+	end
+end
+
+class Integer
+	def to_radians
+		self.to_f * Math::PI / 180.0
+	end
+end
+
 class GLTexture
 	def initialize(filename)
 		gosu_image = Gosu::Image.new(filename, {:retro=>true, :tileable=>true})
