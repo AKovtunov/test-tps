@@ -3,12 +3,7 @@ require 'opengl'
 require 'glu'
 include Gl, Glu
 
-require_relative 'opengl_context.rb'
-require_relative 'utils.rb'
-require_relative 'aabb.rb'
-require_relative 'ray.rb'
-require_relative 'map.rb'
-require_relative 'character.rb'
+Dir["objects/*"].each {|file| require_relative file }
 
 class Window < Gosu::Window
 	def initialize
