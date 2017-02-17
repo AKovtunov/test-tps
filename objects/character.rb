@@ -22,19 +22,19 @@ class Character
 	def update(camera_angle)
 		s = 1.0
 		if Gosu::button_down?(Gosu::KbW)
-			@position.x -= s * Math::cos(camera_angle.x.to_radians)
-			@position.z -= s * Math::sin(camera_angle.x.to_radians)
+			@position.x -= s * Math::cos(camera_angle.y.to_radians)
+			@position.z -= s * Math::sin(camera_angle.y.to_radians)
 		elsif Gosu::button_down?(Gosu::KbS)
-			@position.x += s * Math::cos(camera_angle.x.to_radians)
-			@position.z += s * Math::sin(camera_angle.x.to_radians)
+			@position.x += s * Math::cos(camera_angle.y.to_radians)
+			@position.z += s * Math::sin(camera_angle.y.to_radians)
 		end
 
 		if Gosu::button_down?(Gosu::KbA)
-			@position.x -= s * Math::cos((camera_angle.x - 90.0).to_radians)
-			@position.z -= s * Math::sin((camera_angle.x - 90.0).to_radians)
+			@position.x -= s * Math::cos((camera_angle.y - 90.0).to_radians)
+			@position.z -= s * Math::sin((camera_angle.y - 90.0).to_radians)
 		elsif Gosu::button_down?(Gosu::KbD)
-			@position.x += s * Math::cos((camera_angle.x - 90.0).to_radians)
-			@position.z += s * Math::sin((camera_angle.x - 90.0).to_radians)
+			@position.x += s * Math::cos((camera_angle.y - 90.0).to_radians)
+			@position.z += s * Math::sin((camera_angle.y - 90.0).to_radians)
 		end
 	end
 
@@ -48,7 +48,8 @@ class Character
 		glBindTexture(GL_TEXTURE_2D, @frames.gl_tex_info.tex_name)
 		glPushMatrix
 			glTranslate(@position.x, @position.y, @position.z)
-			glRotate(90.0 - camera_angle.x, 0, 1, 0)
+			glRotate(90.0 - camera_angle.y, 0, 1, 0)
+			glRotate(-camera_angle.x, 1, 0, 0)
 			glScale(@frame_width, @frame_height, 1.0)
 			glBegin(GL_QUADS)
 				@frames.gl_tex_info.tex_coord_2d(x_frame, y_frame - frame_height); 					glVertex3f(-0.5, 0.0, 0.0)
