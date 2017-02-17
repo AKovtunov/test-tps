@@ -1,12 +1,11 @@
-
-class OpenglContext
+class Camera
 	def initialize(window)
 		@window = window
 		@clear_color = [0.5, 0.5, 0.5, 1.0]
-		@perspective = [45, @window.width.to_f / @window.height.to_f, 1, 1000]
+		@perspective = [45, @window.width.to_f / @window.height.to_f, 1, 1000]		
 	end
 
-	def setup
+	def look
 		glColor4f(1, 1, 1, 1)
 		# glEnable(GL_TEXTURE_2D)
 		glEnable(GL_DEPTH_TEST)
@@ -17,6 +16,6 @@ class OpenglContext
 		gluPerspective(*@perspective)
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity
-		gluLookAt(0, 200, 1, 0, 0, 0, 0, 1, 0)		
+		gluLookAt(0, 200, 1, 0, 0, 0, 0, 1, 0)	
 	end
 end

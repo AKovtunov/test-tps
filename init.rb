@@ -3,13 +3,13 @@ require 'opengl'
 require 'glu'
 include Gl, Glu
 
-Dir["objects/*"].each {|file| require_relative file }
+Dir["objects/*"].each {|file| require_relative file}
 
 class Window < Gosu::Window
 	def initialize
 		super(640, 480, false)
 		self.caption = "Ray test"
-		@opengl_context = OpenglContext.new(self)
+		@camera = Camera.new(self)
 		@font = Gosu::Font.new(24)
 	end
 
@@ -44,7 +44,7 @@ class Window < Gosu::Window
 
 	def draw
 		gl do
-			@opengl_context.setup
+			@camera.look
 			color = [255, 0, 0]
 			
 			@path.each {|aabb| AABB.draw(Vector3.new(aabb[0] * 16, 0, aabb[1] * 16), Vector3.new(16, 16, 16), color)}
