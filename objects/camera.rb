@@ -1,4 +1,5 @@
 class Camera
+	attr_reader :angles
 	def initialize(window)
 		@window = window
 		@clear_color = [0.5, 0.5, 0.5, 1.0]
@@ -6,8 +7,8 @@ class Camera
 		@position = Vector3.new(0, 0, 0)
 		@target = Vector3.new(0, 0, 0)
 		@angles = Vector3.new(0, 0, 0)
-		@distance = 64.0
-		@altitude = 16.0
+		@distance = 96.0
+		@altitude = 32.0
 	end
 
 	def update(target)

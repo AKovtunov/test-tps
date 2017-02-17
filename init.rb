@@ -5,11 +5,15 @@ include Gl, Glu
 
 Dir["objects/*"].each {|file| require_relative file}
 
+$tile_size = 16
+
 class Window < Gosu::Window
 	def initialize
 		super(800, 600, false)
 		self.caption = "Ray test"
 		@camera = Camera.new(self)
+		@character = Character.new('test.png', 24, 32)
+		@map = Map.new(nil)
 		@font = Gosu::Font.new(24)
 	end
 
@@ -31,8 +35,8 @@ class Window < Gosu::Window
 		lenght = 96
 		@ray.destination.x = @ray.origin.x + lenght * Math::cos(@ray_angle * Math::PI / 180.0)
 		@ray.destination.z = @ray.origin.z + lenght * Math::sin(@ray_angle * Math::PI / 180.0)
-		@ray_angle += 1 if Gosu::button_down?(Gosu::KbRight)
-		@ray_angle -= 1 if Gosu::button_down?(Gosu::KbLeft)
+		@ray_angle += 2 if Gosu::button_down?(Gosu::KbRight)
+		@ray_angle -= 2 if Gosu::button_down?(Gosu::KbLeft)
 
 		v = 1
 		@ray.origin.x += v if Gosu::button_down?(Gosu::KbD)
@@ -42,15 +46,18 @@ class Window < Gosu::Window
 
 		@path = @ray.raytrace
 
+		@character.set_position(@ray.origin)
 		@camera.update(@ray.origin)
 	end
 
 	def draw
 		gl do
 			@camera.look
+			@map.draw
+			@character.draw(@camera.angles)
+
 			color = [255, 0, 0]
-			
-			@path.each {|aabb| AABB.draw(Vector3.new(aabb[0] * 16, 0, aabb[1] * 16), Vector3.new(16, 16, 16), color)}
+			@path.each {|aabb| AABB.draw(Vector3.new(aabb[0] * 16, 1, aabb[1] * 16), Vector3.new(16, 16, 16), color)}
 			@ray.draw([0, 255, 0])
 		end
 		@font.draw("FPS : #{Gosu::fps}", 0, 0, 0)
