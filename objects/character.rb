@@ -6,6 +6,8 @@ class Character
 		@frame_width, @frame_height = frame_width, frame_height
 		@frames = Gosu::Image.new("gfx/#{filename}", {:retro=>true, :tileable=>true})
 		@frame = 1
+		@frame_duration, @frame_tick = 220.0, Gosu::milliseconds
+		@left_foot = true
 		@orientations = {
 			:north => 0,
 			:east => 1,
@@ -20,21 +22,50 @@ class Character
 	end
 
 	def update(camera_angle)
+		is_moving = false
 		s = 1.0
+		if (Gosu::button_down?(Gosu::KbW) or Gosu::button_down?(Gosu::KbS)) and	(Gosu::button_down?(Gosu::KbA) or Gosu::button_down?(Gosu::KbD))
+			s *= 0.7
+		end
+
 		if Gosu::button_down?(Gosu::KbW)
+			is_moving = true
 			@position.x -= s * Math::cos(camera_angle.y.to_radians)
 			@position.z -= s * Math::sin(camera_angle.y.to_radians)
 		elsif Gosu::button_down?(Gosu::KbS)
+			is_moving = true
 			@position.x += s * Math::cos(camera_angle.y.to_radians)
 			@position.z += s * Math::sin(camera_angle.y.to_radians)
 		end
 
 		if Gosu::button_down?(Gosu::KbA)
+			is_moving = true
 			@position.x -= s * Math::cos((camera_angle.y - 90.0).to_radians)
 			@position.z -= s * Math::sin((camera_angle.y - 90.0).to_radians)
 		elsif Gosu::button_down?(Gosu::KbD)
+			is_moving = true
 			@position.x += s * Math::cos((camera_angle.y - 90.0).to_radians)
 			@position.z += s * Math::sin((camera_angle.y - 90.0).to_radians)
+		end
+
+		if is_moving
+			if Gosu::milliseconds - @frame_tick >= @frame_duration
+				if @frame == 0 or @frame == 2
+					@frame = 1
+				else
+					if @left_foot
+						@frame = 2
+						@left_foot = false
+					else
+						@frame = 0
+						@left_foot = true
+					end
+				end
+				@frame_tick = Gosu::milliseconds
+			end
+		else
+			@frame = 1
+			@frame_tick = Gosu::milliseconds
 		end
 	end
 

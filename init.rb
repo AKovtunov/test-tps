@@ -43,7 +43,7 @@ class Window < Gosu::Window
 		@character.update(@camera.angles)
 		@camera.update(@character.position)
 
-		range = 128.0
+		range = 96.0
 		@ray.origin.x = @character.position.x
 		@ray.origin.z = @character.position.z
 		@ray.destination.x = @camera.target.x - range * Math::cos(@camera.angles.x.to_radians) * Math::cos(@camera.angles.y.to_radians)
