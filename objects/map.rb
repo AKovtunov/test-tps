@@ -1,9 +1,11 @@
 class Map
 	def initialize(filename)
-
+		to_display_list
 	end
 
-	def draw
+	def to_display_list
+		@display_list = glGenLists(1)
+		glNewList(@display_list, GL_COMPILE)
 		# temp and fast implementation
 		@tileset ||= Gosu::Image.new('gfx/tileset.png', {:retro=>true, :tileable=>true})
 		glBindTexture(GL_TEXTURE_2D, @tileset.gl_tex_info.tex_name)
@@ -21,5 +23,10 @@ class Map
 		end
 		glEnd
 		glPopMatrix
+		glEndList
+	end
+
+	def draw
+		glCallList(@display_list)
 	end
 end
